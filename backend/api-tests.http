@@ -1,0 +1,120 @@
+@baseUrl = http://localhost:5000/api
+
+### ==========================
+### MODULE 5: BAREMES
+### ==========================
+
+### Créer un Barème
+# @name createBarreme
+POST {{baseUrl}}/barremes
+Content-Type: application/json
+
+{
+    "nom": "Barème Test",
+    "description": "Un test de création",
+    "statut": "brouillon"
+}
+
+### Récupérer les Barèmes
+GET {{baseUrl}}/barremes
+
+### Ajouter une Rubrique au Barème (Remplacez les ID)
+POST {{baseUrl}}/barremes/rubriques
+Content-Type: application/json
+
+{
+    "nom": "Qualité du code",
+    "poids": 30,
+    "ordre": 1,
+    "barremeId": "REMPLACER_PAR_ID_BAREME",
+    "epreuveId": "REMPLACER_PAR_ID_EPREUVE"
+}
+
+
+### ==========================
+### MODULE 6: NOTES
+### ==========================
+
+### Saisir une Note
+# @name createNote
+POST {{baseUrl}}/notes
+Content-Type: application/json
+
+{
+    "candidatId": "60d21b4667d0d8992e610c85",
+    "epreuveId": "60d21b4667d0d8992e610c85",
+    "note": 18
+}
+
+### Lister les Notes
+GET {{baseUrl}}/notes
+
+### Valider la Note (Remplacez l'ID)
+POST {{baseUrl}}/notes/REMPLACER_PAR_ID_NOTE/validate
+
+
+### ==========================
+### MODULE 7: QCM (Simulation)
+### ==========================
+
+### Uploader un Scan QCM (Test sans fichier via form-data simplifié)
+POST {{baseUrl}}/qcm/upload
+# Normalement envoyé en multipart/form-data
+
+### Traiter le Scan (Remplacez l'ID)
+POST {{baseUrl}}/qcm/process
+Content-Type: application/json
+
+{
+    "scanId": "REMPLACER_PAR_ID_SCAN"
+}
+
+
+### ==========================
+### MODULE 8: EVALUATIONS
+### ==========================
+
+### Créer une Evaluation Pratique
+POST {{baseUrl}}/evaluations
+Content-Type: application/json
+
+{
+    "candidatId": "60d21b4667d0d8992e610c85",
+    "examinateurId": "60d21b4667d0d8992e610c85",
+    "rubriques": [
+        { "rubriqueId": "60d21b4667d0d8992e610c85", "note": 16 }
+    ],
+    "commentaires": {
+        "observation": "Très bien !"
+    }
+}
+
+
+### ==========================
+### MODULE 9: EFM
+### ==========================
+
+### Créer un EFM
+POST {{baseUrl}}/efm
+Content-Type: application/json
+
+{
+    "nom": "EFM Juin 2026 Test",
+    "niveau": "regional",
+    "dateOuverture": "2026-06-01",
+    "dateFermeture": "2026-06-30"
+}
+
+### Lister les EFM
+GET {{baseUrl}}/efm
+
+### Sceller l'EFM (Remplacez l'ID)
+POST {{baseUrl}}/efm/REMPLACER_PAR_ID_EFM/seal
+Content-Type: application/json
+
+{
+    "userId": "60d21b4667d0d8992e610c85"
+}
+
+### Exporter PDF (Remplacez l'ID)
+GET {{baseUrl}}/efm/REMPLACER_PAR_ID_EFM/export-pdf
