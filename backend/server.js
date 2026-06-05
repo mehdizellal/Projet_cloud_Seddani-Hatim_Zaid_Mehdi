@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -21,9 +22,10 @@ connectDB(); // <-- Add this
 
 const app = express();
 
-app.use(helmet()); 
-app.use(cors()); 
-app.use(express.json()); 
+app.use(helmet({ contentSecurityPolicy: false }));
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/filieres', filiereRoutes);
@@ -40,6 +42,10 @@ app.use('/api/efm', efmRoutes);
 
 app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'success', message: 'ISMO API is running!' });
+});
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;

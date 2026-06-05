@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ISMO — Test API</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <h1><span>ISMO</span> Test Console</h1>
+    <div class="user-info">
+      <span id="auth-badge" class="badge disconnected">Non connecté</span>
+      <span id="user-display"></span>
+      <button class="action secondary" id="btn-health">Health Check</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav>
+      <button data-panel="panel-auth" class="active">Auth</button>
+      <button data-panel="panel-filieres">Filières</button>
+      <button data-panel="panel-modules">Modules</button>
+      <button data-panel="panel-competences">Compétences</button>
+      <button data-panel="panel-absences">Absences</button>
+      <button data-panel="panel-barremes">Barèmes</button>
+      <button data-panel="panel-notes">Notes</button>
+      <button data-panel="panel-qcm">QCM</button>
+      <button data-panel="panel-evaluations">Évaluations</button>
+      <button data-panel="panel-efm">EFM</button>
+    </nav>
+
+    <main>
+      <!-- AUTH -->
+      <section id="panel-auth" class="panel active">
+        <h2>Authentification</h2>
+        <div class="card">
+          <h3>Inscription</h3>
+          <div class="form-grid">
+            <label>Prénom <input id="reg-first" value="Admin"></label>
+            <label>Nom <input id="reg-last" value="Test"></label>
+            <label>Email <input id="reg-email" type="email" value="admin@ismo.test"></label>
+            <label>Mot de passe <input id="reg-pass" type="password" value="password123"></label>
+            <label>Rôle
+              <select id="reg-role">
+                <option value="Admin">Admin</option>
+                <option value="Formateur">Formateur</option>
+                <option value="Stagiaire">Stagiaire</option>
+              </select>
+            </label>
+          </div>
+          <div class="btn-row">
+            <button class="action" id="btn-register">S'inscrire</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Connexion</h3>
+          <div class="form-grid">
+            <label>Email <input id="login-email" type="email" value="admin@ismo.test"></label>
+            <label>Mot de passe <input id="login-pass" type="password" value="password123"></label>
+          </div>
+          <div class="btn-row">
+            <button class="action" id="btn-login">Se connecter</button>
+            <button class="action secondary" id="btn-logout">Déconnexion</button>
+            <button class="action secondary" id="btn-me">Mon profil (/me)</button>
+            <button class="action secondary" id="btn-admin">Admin data</button>
+          </div>
+          <p class="hint">Modules 1-4 nécessitent un token JWT. Connectez-vous en Admin pour tester les CRUD.</p>
+        </div>
+      </section>
+
+      <!-- FILIERES -->
+      <section id="panel-filieres" class="panel">
+        <h2>Filières</h2>
+        <div class="card">
+          <div class="form-grid">
+            <label>ID <input id="fil-id" placeholder="auto depuis dernière création"></label>
+            <label>Code <input id="fil-code" value="DEV101"></label>
+            <label>Nom <input id="fil-name" value="Développement Digital"></label>
+            <label>Description <input id="fil-desc" value="Filière test"></label>
+          </div>
+          <div class="btn-row">
+            <button class="action" id="btn-fil-list">Lister</button>
+            <button class="action" id="btn-fil-create">Créer</button>
+            <button class="action secondary" id="btn-fil-get">Obtenir</button>
+            <button class="action secondary" id="btn-fil-update">Modifier</button>
+            <button class="action danger" id="btn-fil-delete">Archiver</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- MODULES -->
+      <section id="panel-modules" class="panel">
+        <h2>Modules</h2>
+        <div class="card">
+          <div class="form-grid">
+            <label>ID <input id="mod-id" placeholder="auto"></label>
+            <label>Code <input id="mod-code" value="M101"></label>
+            <label>Nom <input id="mod-name" value="Programmation Web"></label>
+            <label>Filière ID <input id="mod-filiere" placeholder="ID filière"></label>
+            <label>Coefficient <input id="mod-coef" type="number" value="3"></label>
+          </div>
+          <div class="btn-row">
+            <button class="action" id="btn-mod-list">Lister</button>
+            <button class="action" id="btn-mod-create">Créer</button>
+            <button class="action secondary" id="btn-mod-get">Obtenir</button>
+            <button class="action secondary" id="btn-mod-update">Modifier</button>
+            <button class="action danger" id="btn-mod-delete">Supprimer</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMPETENCES -->
+      <section id="panel-competences" class="panel">
+        <h2>Compétences</h2>
+        <div class="card">
+          <div class="form-grid">
+            <label>ID <input id="comp-id" placeholder="auto"></label>
+            <label>Code <input id="comp-code" value="C101"></label>
+            <label>Nom <input id="comp-name" value="Créer une API REST"></label>
+            <label>Description <input id="comp-desc" value="Compétence test"></label>
+            <label>Module ID <input id="comp-module" placeholder="ID module"></label>
+          </div>
+          <div class="btn-row">
+            <button class="action" id="btn-comp-list">Lister</button>
+            <button class="action" id="btn-comp-create">Créer</button>
+            <button class="action secondary" id="btn-comp-get">Obtenir</button>
+            <button class="action secondary" id="btn-comp-update">Modifier</button>
+            <button class="action danger" id="btn-comp-delete">Supprimer</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABSENCES -->
+      <section id="panel-absences" class="panel">
+        <h2>Absences &amp; Présences</h2>
+        <div class="card">
+          <h3>Créer une session</h3>
+          <div class="form-grid">
+            <label>Module ID <input id="abs-module" placeholder="ID module"></label>
+            <label>Groupe ID <input id="abs-groupe" placeholder="ObjectId groupe MongoDB"></label>
+            <label>Date <input id="abs-date" type="date" value="2026-06-05"></label>
+            <label>Début <input id="abs-start" value="08:30"></label>
+            <label>Fin <input id="abs-end" value="11:00"></label>
+          </div>
+          <div class="btn-row">
+            <button class="action" id="btn-abs-session">Créer session</button>
+          </div>
+          <p class="hint">Rôle requis : Admin ou Formateur. Le groupe doit exister en base (pas d'API CRUD groupe).</p>
+        </div>
+        <div class="card">
+          <h3>Marquer les présences</h3>
+          <div class="form-grid">
+            <label>Session ID <input id="abs-session-id" placeholder="auto"></label>
+          </div>
+          <label>Attendances (JSON)
+            <textarea id="abs-attendances">[{"stagiaire": "REMPLACER_PAR_USER_ID", "status": "Présent"}]</textarea>
+          </label>
+          <div class="btn-row" style="margin-top:0.75rem">
+            <button class="action" id="btn-abs-mark">Enregistrer présences</button>
+            <button class="action secondary" id="btn-abs-mine">Mes absences (Stagiaire)</button>
+            <button class="action secondary" id="btn-abs-stats">Statistiques</button>
+          </div>
+          <div class="form-grid" style="margin-top:0.75rem">
+            <label>Stagiaire ID (stats) <input id="abs-stagiaire" placeholder="auto = utilisateur connecté"></label>
+          </div>
+        </div>
+      </section>
+
+      <!-- BAREMES -->
+      <section id="panel-barremes" class="panel">
+        <h2>Barèmes</h2>
+        <div class="card">
+          <div class="form-grid">
+            <label>ID <input id="bar-id" placeholder="auto"></label>
+            <label>Nom <input id="bar-nom" value="Barème Test"></label>
+            <label>Description <input id="bar-desc" value="Test barème"></label>
+            <label>Statut <input id="bar-statut" value="brouillon"></label>
+          </div>
+          <div class="btn-row">
+            <button class="action" id="btn-bar-list">Lister</button>
+            <button class="action" id="btn-bar-create">Créer</button>
+            <button class="action secondary" id="btn-bar-get">Obtenir</button>
+            <button class="action secondary" id="btn-bar-update">Modifier</button>
+            <button class="action danger" id="btn-bar-delete">Supprimer</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Rubriques</h3>
+          <div class="form-grid">
+            <label>Rubrique ID <input id="rub-id" placeholder="auto"></label>
+            <label>Nom <input id="rub-nom" value="Qualité du code"></label>
+            <label>Poids <input id="rub-poids" type="number" value="30"></label>
+            <label>Ordre <input id="rub-ordre" type="number" value="1"></label>
+            <label>Barème ID <input id="rub-barreme" placeholder="auto"></label>
+            <label>Épreuve ID <input id="rub-epreuve" placeholder="ID module"></label>
+          </div>
+          <div class="btn-row">
+            <button class="action" id="btn-rub-create">Ajouter rubrique</button>
+            <button class="action secondary" id="btn-rub-update">Modifier</button>
+            <button class="action danger" id="btn-rub-delete">Supprimer</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- NOTES -->
+      <section id="panel-notes" class="panel">
+        <h2>Notes</h2>
+        <div class="card">
+          <div class="form-grid">
+            <label>Note ID <input id="note-id" placeholder="auto"></label>
+            <label>Candidat ID <input id="note-candidat" placeholder="auto"></label>
+            <label>Épreuve ID <input id="note-epreuve" placeholder="ID module"></label>
+            <label>Note (/20) <input id="note-value" type="number" value="18" min="0" max="20"></label>
+          </div>
+          <div class="btn-row">
+            <button class="action" id="btn-note-list">Lister</button>
+            <button class="action" id="btn-note-create">Saisir</button>
+            <button class="action secondary" id="btn-note-update">Modifier</button>
+            <button class="action secondary" id="btn-note-validate">Valider</button>
+            <button class="action secondary" id="btn-note-publish">Publier</button>
+            <button class="action secondary" id="btn-note-import">Import CSV (stub)</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- QCM -->
+      <section id="panel-qcm" class="panel">
+        <h2>QCM (simulation)</h2>
+        <div class="card">
+          <div class="form-grid">
+            <label>Scan ID <input id="qcm-scan-id" placeholder="auto"></label>
+          </div>
+          <div class="btn-row">
+            <button class="action" id="btn-qcm-upload">Upload scan (stub)</button>
+            <button class="action" id="btn-qcm-process">Traiter scan</button>
+            <button class="action secondary" id="btn-qcm-report">Rapport</button>
+          </div>
+          <p class="hint">L'OCR/OMR est simulé côté backend (dummy_scan.pdf).</p>
+        </div>
+      </section>
+
+      <!-- EVALUATIONS -->
+      <section id="panel-evaluations" class="panel">
+        <h2>Évaluations pratiques</h2>
+        <div class="card">
+          <div class="form-grid">
+            <label>Évaluation ID <input id="eval-id" placeholder="auto"></label>
+            <label>Candidat ID <input id="eval-candidat" placeholder="auto"></label>
+            <label>Examinateur ID <input id="eval-examinateur" placeholder="auto"></label>
+          </div>
+          <label>Rubriques (JSON)
+            <textarea id="eval-rubriques">[{"rubriqueId": "REMPLACER_PAR_RUBRIQUE_ID", "note": 16}]</textarea>
+          </label>
+          <label>Commentaires (JSON)
+            <textarea id="eval-comments">{"observation": "Très bien !"}</textarea>
+          </label>
+          <div class="btn-row" style="margin-top:0.75rem">
+            <button class="action" id="btn-eval-create">Créer</button>
+            <button class="action secondary" id="btn-eval-get">Obtenir</button>
+            <button class="action secondary" id="btn-eval-update">Modifier</button>
+            <button class="action secondary" id="btn-eval-upload">Upload (stub)</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- EFM -->
+      <section id="panel-efm" class="panel">
+        <h2>EFM (Examens Fin de Module)</h2>
+        <div class="card">
+          <div class="form-grid">
+            <label>EFM ID <input id="efm-id" placeholder="auto"></label>
+            <label>Nom <input id="efm-nom" value="EFM Juin 2026 Test"></label>
+            <label>Niveau
+              <select id="efm-niveau">
+                <option value="local">local</option>
+                <option value="regional" selected>regional</option>
+              </select>
+            </label>
+            <label>Date ouverture <input id="efm-ouverture" type="date" value="2026-06-01"></label>
+            <label>Date fermeture <input id="efm-fermeture" type="date" value="2026-06-30"></label>
+            <label>User ID (scellement) <input id="efm-user" placeholder="auto"></label>
+          </div>
+          <div class="btn-row">
+            <button class="action" id="btn-efm-list">Lister</button>
+            <button class="action" id="btn-efm-create">Créer</button>
+            <button class="action secondary" id="btn-efm-update">Modifier</button>
+            <button class="action secondary" id="btn-efm-seal">Sceller</button>
+            <button class="action secondary" id="btn-efm-pdf">Export PDF</button>
+            <button class="action secondary" id="btn-efm-excel">Export Excel</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside>
+      <h3>Réponse API</h3>
+      <pre id="response-panel">Cliquez sur un bouton pour tester une route…</pre>
+    </aside>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
